@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Kelas Bahasa Arab</title>
+    <title>Portal Kelas - Zainuddin, S.Ag, M.Pd</title>
     <style>
         /* Gaya Dasar */
         body {
@@ -122,13 +122,33 @@
         .pdf-link:hover {
             background-color: #c0392b;
         }
+        
+        /* Penyesuaian Responsif untuk HP */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            nav {
+                margin-top: 15px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            nav button {
+                margin-left: 0;
+            }
+            .info-cards {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
 
     <!-- Header & Navigasi -->
     <header>
-        <h1>Kelas Bahasa Arab</h1>
+        <h1>Portal Kelas SKI</h1>
         <nav>
             <button class="nav-btn active" onclick="showSection('dasbor', this)">Dasbor</button>
             <button class="nav-btn" onclick="showSection('absensi', this)">Absensi</button>
@@ -140,16 +160,16 @@
         <!-- 1. BAGIAN DASBOR -->
         <div id="dasbor" class="section active">
             <h2>Selamat Datang di Portal Kelas</h2>
-            <p>Ini adalah halaman utama untuk memantau aktivitas kelas Bahasa Arab.</p>
+            <p>Ini adalah halaman utama untuk memantau aktivitas pembelajaran.</p>
             
             <div class="info-cards">
                 <div class="card">
-                    <h3>Pengumuman Baru</h3>
-                    <p>Selamat bergabung kepada <strong>Ustadz Hasan (Guru Baru)</strong> yang akan membimbing kelas kita mulai semester ini.</p>
+                    <h3>Pengajar</h3>
+                    <p>Kelas ini diampu oleh <strong>Bapak Zainuddin, S.Ag, M.Pd</strong>. Silakan cek menu informasi untuk melihat jadwal lengkap.</p>
                 </div>
                 <div class="card">
-                    <h3>Mata Pelajaran Baru</h3>
-                    <p>Mata Pelajaran <strong>Muhadatsah (Percakapan Bahasa Arab)</strong> telah resmi ditambahkan ke dalam kurikulum.</p>
+                    <h3>Mata Pelajaran Fokus</h3>
+                    <p>Portal ini utamanya digunakan untuk pembelajaran <strong>SKI (Sejarah Kebudayaan Islam)</strong> dan mapel terkait lainnya.</p>
                 </div>
             </div>
         </div>
@@ -157,7 +177,7 @@
         <!-- 2. BAGIAN ABSENSI -->
         <div id="absensi" class="section">
             <h2>Formulir Absensi Harian</h2>
-            <p>Silakan isi daftar hadir di bawah ini.</p>
+            <p>Silakan isi daftar hadir di bawah ini setiap pertemuan kelas dimulai.</p>
             
             <form id="formAbsensi" onsubmit="submitAbsensi(event)">
                 <div class="form-group">
@@ -168,16 +188,16 @@
                     <label for="peran">Peran</label>
                     <select id="peran" required>
                         <option value="Siswa">Siswa</option>
-                        <option value="Guru">Guru (termasuk Ustadz Hasan)</option>
+                        <option value="Guru">Guru (Bpk. Zainuddin)</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="mapel">Mata Pelajaran</label>
                     <select id="mapel" required>
-                        <option value="Nahwu / Shorof">Nahwu / Shorof</option>
-                        <option value="Kosa Kata (Mufradat)">Kosa Kata (Mufradat)</option>
-                        <!-- Ini Mapel Barunya -->
-                        <option value="Muhadatsah (Percakapan)">Muhadatsah (Percakapan) - MAPEL BARU</option> 
+                        <option value="SKI (Sejarah Kebudayaan Islam)">SKI (Sejarah Kebudayaan Islam)</option>
+                        <option value="Fikih">Fikih</option>
+                        <option value="Aqidah Akhlak">Aqidah Akhlak</option>
+                        <option value="Lainnya">Lainnya...</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -202,9 +222,9 @@
                 <a href="kalender-pendidikan.pdf" target="_blank" class="pdf-link">🗓️ Buka Kalender Pendidikan (PDF)</a>
             </div>
             
-            <div style="margin-top: 30px; background: #fff3cd; padding: 15px; border-left: 5px solid #ffc107; border-radius: 4px;">
-                <strong>Info Jadwal Baru:</strong> 
-                Jadwal pelajaran telah diperbarui untuk mengakomodasi jadwal Ustadz Hasan pada mata pelajaran Muhadatsah setiap hari Rabu dan Jumat.
+            <div style="margin-top: 30px; background: #e8f4fd; padding: 15px; border-left: 5px solid #3498db; border-radius: 4px;">
+                <strong>Catatan Penting:</strong> 
+                Jadwal pelajaran SKI bersama <strong>Bapak Zainuddin, S.Ag, M.Pd</strong> harap selalu dipantau melalui file jadwal PDF di atas. Jika ada perubahan kelas, akan diumumkan di grup WhatsApp.
             </div>
         </div>
 
