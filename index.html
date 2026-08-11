@@ -107,6 +107,12 @@
         button.submit-btn:hover {
             background-color: #16a085;
         }
+        
+        /* Tombol Loading */
+        .submit-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
 
         /* Tombol Download PDF */
         .pdf-link {
@@ -174,26 +180,27 @@
             </div>
         </div>
 
-        <!-- 2. BAGIAN ABSENSI -->
+        <!-- 2. BAGIAN ABSENSI (TERHUBUNG GOOGLE SHEETS) -->
         <div id="absensi" class="section">
             <h2>Formulir Absensi Harian</h2>
             <p>Silakan isi daftar hadir di bawah ini setiap pertemuan kelas dimulai.</p>
             
-            <form id="formAbsensi" onsubmit="submitAbsensi(event)">
+            <form id="formAbsensi" name="submit-to-google-sheet">
+                <!-- Atribut 'name' pada input harus sama persis dengan header di Google Sheets -->
                 <div class="form-group">
                     <label for="nama">Nama Lengkap</label>
-                    <input type="text" id="nama" placeholder="Masukkan nama..." required>
+                    <input type="text" id="nama" name="Nama" placeholder="Masukkan nama..." required>
                 </div>
                 <div class="form-group">
                     <label for="peran">Peran</label>
-                    <select id="peran" required>
+                    <select id="peran" name="Peran" required>
                         <option value="Siswa">Siswa</option>
                         <option value="Guru">Guru (Bpk. Zainuddin)</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="mapel">Mata Pelajaran</label>
-                    <select id="mapel" required>
+                    <select id="mapel" name="Mata Pelajaran" required>
                         <option value="SKI (Sejarah Kebudayaan Islam)">SKI (Sejarah Kebudayaan Islam)</option>
                         <option value="Fikih">Fikih</option>
                         <option value="Aqidah Akhlak">Aqidah Akhlak</option>
@@ -202,13 +209,13 @@
                 </div>
                 <div class="form-group">
                     <label for="status">Keterangan</label>
-                    <select id="status" required>
+                    <select id="status" name="Keterangan" required>
                         <option value="Hadir">Hadir</option>
                         <option value="Izin">Izin</option>
                         <option value="Sakit">Sakit</option>
                     </select>
                 </div>
-                <button type="submit" class="submit-btn">Kirim Absensi</button>
+                <button type="submit" class="submit-btn" id="btnSubmit">Kirim Absensi</button>
             </form>
         </div>
 
@@ -218,6 +225,7 @@
             <p>Unduh atau lihat dokumen penting untuk kelancaran kegiatan belajar mengajar.</p>
             
             <div style="margin-top: 20px;">
+                <!-- Pastikan nama file PDF benar-benar ada di repo kamu -->
                 <a href="jadwal-pelajaran.pdf" target="_blank" class="pdf-link">📅 Buka Jadwal Pelajaran (PDF)</a>
                 <a href="kalender-pendidikan.pdf" target="_blank" class="pdf-link">🗓️ Buka Kalender Pendidikan (PDF)</a>
             </div>
@@ -232,34 +240,45 @@
 
     <!-- Script JavaScript Terintegrasi -->
     <script>
-        // Fungsi untuk mengganti tampilan menu
+        // 1. Fungsi Navigasi Menu
         function showSection(sectionId, btnElement) {
-            // Sembunyikan semua bagian
             const sections = document.querySelectorAll('.section');
             sections.forEach(sec => sec.classList.remove('active'));
 
-            // Hapus status 'active' dari semua tombol navigasi
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
 
-            // Tampilkan bagian yang dipilih dan tandai tombolnya
             document.getElementById(sectionId).classList.add('active');
             btnElement.classList.add('active');
         }
 
-        // Fungsi sederhana saat tombol absensi diklik
-        function submitAbsensi(event) {
-            event.preventDefault(); // Mencegah halaman reload
-            
-            const nama = document.getElementById('nama').value;
-            const mapel = document.getElementById('mapel').value;
-            const status = document.getElementById('status').value;
+        // 2. Fungsi Kirim Data ke Google Sheets
+        // === GANTI URL DI BAWAH INI DENGAN URL DARI GOOGLE SCRIPT KAMU ===
+        const scriptURL = 'MASUKKAN_URL_GOOGLE_APPS_SCRIPT_DI_SINI'; 
+        
+        const form = document.forms['submit-to-google-sheet']
+        const btnSubmit = document.getElementById('btnSubmit');
 
-            alert(`Terima kasih, ${nama}! Absensi untuk mata pelajaran ${mapel} dengan status "${status}" berhasil dicatat.`);
-            
-            // Kosongkan form setelah submit
-            document.getElementById('formAbsensi').reset();
-        }
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+            // Ubah teks tombol saat proses loading
+            btnSubmit.innerHTML = "Mengirim...";
+            btnSubmit.disabled = true;
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                alert("Berhasil! Data absensi telah tersimpan di sistem.");
+                form.reset(); // Kosongkan form
+                btnSubmit.innerHTML = "Kirim Absensi"; // Kembalikan tombol
+                btnSubmit.disabled = false;
+            })
+            .catch(error => {
+                alert("Terjadi kesalahan. Silakan coba lagi.");
+                console.error('Error!', error.message);
+                btnSubmit.innerHTML = "Kirim Absensi";
+                btnSubmit.disabled = false;
+            })
+        })
     </script>
 </body>
 </html>
